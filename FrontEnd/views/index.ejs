@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Sistema de Gestión</h1>
+
+        <!-- Sección de Usuarios -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Usuarios</h2>
+            </div>
+            <div class="card-body">
+                <!-- Formulario para crear usuario -->
+                <form action="/usuarios" method="POST" class="mb-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <input type="tel" name="telefono" class="form-control" placeholder="Teléfono" required>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <input type="date" name="fechaNacimiento" class="form-control" required>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Lista de usuarios -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>Creado En</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% usuarios.forEach(usuario => { %>
+                            <tr>
+                                <td><%= usuario.id %></td>
+                                <td>
+                                    <span class="usuario-info"><%= usuario.nombre %></span>
+                                    <input type="text" class="form-control usuario-edit d-none" value="<%= usuario.nombre %>">
+                                </td>
+                                <td>
+                                    <span class="usuario-info"><%= usuario.apellido %></span>
+                                    <input type="text" class="form-control usuario-edit d-none" value="<%= usuario.apellido %>">
+                                </td>
+                                <td>
+                                    <span class="usuario-info"><%= usuario.email %></span>
+                                    <input type="email" class="form-control usuario-edit d-none" value="<%= usuario.email %>">
+                                </td>
+                                <td>
+                                    <span class="usuario-info"><%= usuario.telefono %></span>
+                                    <input type="tel" class="form-control usuario-edit d-none" value="<%= usuario.telefono %>">
+                                </td>
+                                <td>
+                                    <span class="usuario-info"><%= new Date(usuario.fechaNacimiento).toLocaleDateString() %></span>
+                                    <input type="date" class="form-control usuario-edit d-none" 
+                                           value="<%= new Date(usuario.fechaNacimiento).toISOString().split('T')[0] %>">
+                                </td>
+                                <td><%= new Date(usuario.creadoEn).toLocaleDateString() %></td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning edit-usuario" data-id="<%= usuario.id %>">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success save-usuario d-none" data-id="<%= usuario.id %>">
+                                        <i class="bi bi-check"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-usuario" data-id="<%= usuario.id %>">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Cursos -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Cursos</h2>
+            </div>
+            <div class="card-body">
+                <!-- Formulario para crear curso -->
+                <form action="/cursos" method="POST" class="mb-4">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre del Curso" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="descripcion" class="form-control" placeholder="Descripción" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" name="creditos" class="form-control" placeholder="Créditos" required>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">Crear Curso</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Lista de cursos -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Créditos</th>
+                                <th>Usuarios Inscritos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cursos.forEach(curso => { %>
+                            <tr>
+                                <td><%= curso.id %></td>
+                                <td>
+                                    <span class="curso-info"><%= curso.nombre %></span>
+                                    <input type="text" class="form-control curso-edit d-none" value="<%= curso.nombre %>">
+                                </td>
+                                <td>
+                                    <span class="curso-info"><%= curso.descripcion %></span>
+                                    <input type="text" class="form-control curso-edit d-none" value="<%= curso.descripcion %>">
+                                </td>
+                                <td>
+                                    <span class="curso-info"><%= curso.creditos %></span>
+                                    <input type="number" class="form-control curso-edit d-none" value="<%= curso.creditos %>">
+                                </td>
+                                <td>
+                                    <% if (curso.cursoUsuarios && curso.cursoUsuarios.length > 0) { %>
+                                        <ul class="list-unstyled">
+                                            <% curso.cursoUsuarios.forEach(cu => { %>
+                                                <li>Usuario ID: <%= cu.usuarioId %></li>
+                                            <% }); %>
+                                        </ul>
+                                    <% } else { %>
+                                        <span>Sin usuarios inscritos</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning edit-curso" data-id="<%= curso.id %>">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success save-curso d-none" data-id="<%= curso.id %>">
+                                        <i class="bi bi-check"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-curso" data-id="<%= curso.id %>">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
